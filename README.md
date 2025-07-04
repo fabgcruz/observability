@@ -23,7 +23,5 @@ Este repositório contém a infraestrutura necessária para uma stack de **obser
 | OTEL Collector  | `4317/4318` | Ingestor OTLP         |
 | Jaeger          | `16686` | Visualização de traces     |
 
----
 
-![image](https://github.com/user-attachments/assets/ad7d1b72-0138-4a24-a957-1725f2b8f12d)
 
