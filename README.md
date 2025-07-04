@@ -27,24 +27,5 @@ Este repositório contém a infraestrutura necessária para uma stack de **obser
 
 ---
 
-## 📁 Estrutura do Projeto
+![image](https://github.com/user-attachments/assets/ad7d1b72-0138-4a24-a957-1725f2b8f12d)
 
-observability/
-├── configs/
-│ ├── otel-collector-config.yaml # Configuração atual do OTEL Collector
-│ └── otel-collector-with-jaeger.yaml # Config com exportador Jaeger ativado
-│
-├── docs/
-│ └── grafana-queries.md # Exemplos de queries no Grafana/Loki
-│
-├── python-app/
-│ ├── app.py # App Python instrumentado com OpenTelemetry
-│ ├── app_production.py # Variante com config de produção
-│ ├── Dockerfile # Dockerfile da aplicação
-│ ├── requirements.txt # Dependências Python
-│ └── .env # Variáveis de ambiente
-│
-├── scripts/
-│ └── install-jaeger.sh # Script para subir o Jaeger via Docker
-│
-└── README.md # Documentação principal do projeto
