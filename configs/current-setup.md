@@ -1,7 +1,7 @@
 # Configuração Atual - Observability Stack
 
-## EC2 Observability (IP: 54.172.252.227)
-- **RAM**: 8GB (t3.large)
+## EC2 Observability (IP:)
+- **RAM**: 8GB
 - **OS**: Ubuntu
 - **Serviços rodando**:
   - Grafana (porta 3000)
@@ -9,7 +9,7 @@
   - Prometheus (porta 9090)
   - OpenTelemetry Collector (4317/4318)
 
-## EC2 Python App (IP: 54.172.xxx.xxx)
+## EC2 Python App (IP:)
 - **App**: Python com OpenTelemetry
 - **Instrumentação**: Logs + Traces
 - **Target**: EC2 Observability
