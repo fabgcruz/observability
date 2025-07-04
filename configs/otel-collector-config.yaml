@@ -1,0 +1,61 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "*"
+
+  hostmetrics:
+    collection_interval: 60s  # Reduzir frequência
+    scrapers:
+      cpu: {}
+      memory: {}
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:9464"
+
+  debug:
+    verbosity: basic
+    sampling_initial: 5      # Reduzir logs de debug
+    sampling_thereafter: 100
+
+  loki:
+    endpoint: http://localhost:3100/loki/api/v1/push
+    timeout: 60s             # Aumentar timeout drasticamente
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 30s
+      max_elapsed_time: 300s
+    sending_queue:
+      enabled: true
+      num_consumers: 2
+      queue_size: 1000
+
+processors:
+  batch:
+    timeout: 10s            # Mais tempo para formar batches
+    send_batch_size: 5      # Batches menores
+    send_batch_max_size: 10
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    
+    metrics:
+      receivers: [otlp, hostmetrics]
+      processors: [batch]
+      exporters: [prometheus]  # Remover debug das métricas
+    
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki]       # Remover debug dos logs para reduzir carga

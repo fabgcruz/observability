@@ -1,0 +1,57 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - "*"
+
+  hostmetrics:
+    collection_interval: 60s
+    scrapers:
+      cpu: {}
+      memory: {}
+
+exporters:
+  # Logs para Loki
+  loki:
+    endpoint: http://localhost:3100/loki/api/v1/push
+    timeout: 60s
+
+  # Traces para Jaeger
+  jaeger:
+    endpoint: http://localhost:14268/api/traces
+
+  # Métricas para Prometheus
+  prometheus:
+    endpoint: "0.0.0.0:9464"
+
+  # Debug
+  debug:
+    verbosity: basic
+
+processors:
+  batch:
+    timeout: 10s
+    send_batch_size: 5
+    send_batch_max_size: 10
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger, debug]
+    
+    metrics:
+      receivers: [otlp, hostmetrics]
+      processors: [batch]
+      exporters: [prometheus]
+    
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [loki]
